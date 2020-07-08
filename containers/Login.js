@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import {
-    Text,
-    View,
+    Animated,
     TextInput,
     KeyboardAvoidingView
 } from 'react-native'
 import Button from '../components/Button'
-import { pages } from '../constants/Pages'
 
 const fakeCreds = {
     email: 'Test',
@@ -21,8 +19,17 @@ class Login extends Component {
             email: '',
             password: '',
             emailError: false,
-            passwordError: false
+            passwordError: false,
+            fadeValue: new Animated.Value(0)
         }
+    }
+
+    componentDidMount() {
+        Animated.timing(this.state.fadeValue, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true
+        }).start();
     }
 
     acceptEmail = (text) => {
@@ -43,7 +50,7 @@ class Login extends Component {
 
     loginUser = () => {
         //  Fake/for fun
-        
+
         if (this.state.email !== fakeCreds.email) {
             this.setState({
                 emailError: true
@@ -71,7 +78,8 @@ class Login extends Component {
             loginContainer: {
                 alignItems: 'center',
                 flex: 1,
-                justifyContent: 'center'
+                justifyContent: 'center',
+                opacity: this.state.fadeValue
             },
             textInput: {
                 backgroundColor: 'white',
@@ -96,7 +104,7 @@ class Login extends Component {
             <KeyboardAvoidingView
                 style={styles.container}
                 behavior="padding">
-                <View style={styles.loginContainer}>
+                <Animated.View style={styles.loginContainer}>
                     <TextInput onChangeText={this.acceptEmail}
                         placeholder={emailPlaceholder}
                         value={this.state.username}
@@ -118,7 +126,7 @@ class Login extends Component {
                         width={350}
                         height={40}
                         onPress={this.loginUser} />
-                </View>
+                </Animated.View>
             </KeyboardAvoidingView>
         )
     }

@@ -21,7 +21,6 @@ const LandingPage = (props) => {
 
   return (
     <View style={styles.container}>
-
       <Button
         title="TAKE PICTURE"
         textAlign="center"

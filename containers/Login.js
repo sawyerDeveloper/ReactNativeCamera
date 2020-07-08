@@ -28,6 +28,7 @@ class Login extends Component {
         Animated.timing(this.state.fadeValue, {
             toValue: 1,
             duration: 1000,
+            delay: 700,
             useNativeDriver: true
         }).start();
     }

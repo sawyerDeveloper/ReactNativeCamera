@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  View,
+  Animated,
   SafeAreaView
 } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
@@ -13,8 +13,17 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentPage: pages.LOGIN
+      currentPage: pages.LOGIN,
+      fadeValue: new Animated.Value(0)
     }
+  }
+
+  componentDidMount() {
+    Animated.timing(this.state.fadeValue, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true
+    }).start();
   }
 
   authenticated = () => {
@@ -32,6 +41,7 @@ export default class App extends Component {
       container: {
         flex: 1,
         backgroundColor: 'grey',
+        opacity: this.state.fadeValue
       }
     }
 
@@ -39,14 +49,14 @@ export default class App extends Component {
     switch (this.state.currentPage) {
       case pages.LOGIN:
         container = <Login loginError={this.state.loginError}
-                            authenticated={this.authenticated} />
+          authenticated={this.authenticated} />
         break
     }
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#1a1a1a' }}>
-        <View style={styles.container}>
-        <LinearGradient
+        <Animated.View style={styles.container}>
+          <LinearGradient
             colors={['rgba(0,0,0,0.8)', 'transparent']}
             style={{
               position: 'absolute',
@@ -58,7 +68,7 @@ export default class App extends Component {
           />
           <StatusBar style="light" />
           {container}
-        </View>
+        </Animated.View>
       </SafeAreaView>
     )
   }

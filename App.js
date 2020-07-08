@@ -5,10 +5,11 @@ import {
 } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { LinearGradient } from 'expo-linear-gradient'
-import Login from './containers/Login'
 import { pages } from './constants/Pages'
+import Login from './containers/Login'
+import Capture from './containers/Capture'
 
-export default class App extends Component {
+class App extends Component {
 
   constructor(props) {
     super(props)
@@ -27,7 +28,7 @@ export default class App extends Component {
   }
 
   authenticated = () => {
-    this.nav(pages.LANDING_PAGE)
+    this.nav(pages.CAPTURE)
   }
 
   nav = (newPage) => {
@@ -51,6 +52,9 @@ export default class App extends Component {
         container = <Login loginError={this.state.loginError}
           authenticated={this.authenticated} />
         break
+      case pages.CAPTURE:
+        container = <Capture nav={this.nav} />
+        break
     }
 
     return (
@@ -73,3 +77,5 @@ export default class App extends Component {
     )
   }
 }
+
+export default App

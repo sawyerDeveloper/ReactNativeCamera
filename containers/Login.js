@@ -123,7 +123,6 @@ class Login extends Component {
                         textAlign="center"
                         color="white"
                         backgroundColor="#4f8ff7"
-                        borderRadius={2}
                         width={350}
                         height={40}
                         onPress={this.loginUser} />

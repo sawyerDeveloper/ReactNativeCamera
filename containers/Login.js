@@ -3,53 +3,57 @@ import {
     Text,
     View,
     TextInput,
-    KeyboardAvoidingView    
+    KeyboardAvoidingView
 } from 'react-native'
 import Button from '../components/Button'
 import { pages } from '../constants/Pages'
 
 const fakeCreds = {
     email: 'Test',
-    password: 'test' 
+    password: 'test'
 }
 
-export default class Login extends Component {
+class Login extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             email: '',
             password: '',
-            loginError: ''
+            emailError: false,
+            passwordError: false
         }
     }
 
     acceptEmail = (text) => {
         this.setState({
             email: text,
-            loginError: ''
+            emailError: false,
+            passwordError: false
         })
     }
 
     acceptPassword = (text) => {
         this.setState({
             password: text,
-            loginError: ''
+            emailError: false,
+            passwordError: false
         })
     }
 
     loginUser = () => {
-
         //  Fake/for fun
-        if(this.state.email !== fakeCreds.email){
+        
+        if (this.state.email !== fakeCreds.email) {
             this.setState({
-                loginError: 'Bad Email'
+                emailError: true
             })
             return
         }
-        if(this.state.password !== fakeCreds.password){
+
+        if (this.state.password !== fakeCreds.password) {
             this.setState({
-                loginError: 'Bad Password'
+                passwordError: true
             })
             return
         }
@@ -77,11 +81,16 @@ export default class Login extends Component {
                 textAlign: 'center',
                 marginBottom: 5
             },
-            error: {
-                color: 'red',
-                fontWeight: 'bold'
+            textInputError: {
+                borderColor: 'red',
+                borderWidth: 1
             }
         }
+
+        const emailPlaceholder = this.state.emailError ? "Bad Email" : "Email"
+        const emailStyle = this.state.emailError ? [styles.textInputError, styles.textInput] : styles.textInput
+        const passwordPlaceholder = this.state.passwordError ? "Bad Password" : "Password"
+        const passwordStyle = this.state.passwordError ? [styles.textInputError, styles.textInput] : styles.textInput
 
         return (
             <KeyboardAvoidingView
@@ -89,17 +98,17 @@ export default class Login extends Component {
                 behavior="padding">
                 <View style={styles.loginContainer}>
                     <TextInput onChangeText={this.acceptEmail}
-                        placeholder="Email"
+                        placeholder={emailPlaceholder}
                         value={this.state.username}
-                        style={styles.textInput}
+                        style={emailStyle}
                         underlineColorAndroid="transparent" />
                     <TextInput onChangeText={this.acceptPassword}
-                        placeholder="Password"
+                        placeholder={passwordPlaceholder}
                         value={this.state.password}
-                        style={styles.textInput}
+                        style={passwordStyle}
                         underlineColorAndroid="transparent"
                         secureTextEntry={true} />
-                    <Button 
+                    <Button
                         title="LOGIN"
                         justifyContent="center"
                         textAlign="center"
@@ -108,10 +117,11 @@ export default class Login extends Component {
                         borderRadius={2}
                         width={350}
                         height={40}
-                        onPress={this.loginUser}/>
-                        <Text style={styles.error}>{this.state.loginError} </Text>
+                        onPress={this.loginUser} />
                 </View>
             </KeyboardAvoidingView>
         )
     }
 }
+
+export default Login

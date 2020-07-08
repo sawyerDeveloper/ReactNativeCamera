@@ -1,9 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
 import {
   View,
   SafeAreaView
 } from 'react-native'
+import { StatusBar } from 'expo-status-bar'
+import { LinearGradient } from 'expo-linear-gradient'
 import Login from './containers/Login'
 import { pages } from './constants/Pages'
 
@@ -17,7 +18,7 @@ export default class App extends Component {
   }
 
   authenticated = () => {
-    
+    this.nav(pages.LANDING_PAGE)
   }
 
   nav = (newPage) => {
@@ -45,6 +46,16 @@ export default class App extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#1a1a1a' }}>
         <View style={styles.container}>
+        <LinearGradient
+            colors={['rgba(0,0,0,0.8)', 'transparent']}
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 0,
+              height: 300,
+            }}
+          />
           <StatusBar style="light" />
           {container}
         </View>

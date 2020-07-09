@@ -98,6 +98,7 @@ class Capture extends Component {
 
 
         let component
+        //  If a pic hasn't been taken - show the camera
         if (!this.state.tempImage) {
             component = <TouchableOpacity onPress={this.captureImage}>
                 <Camera ref={ref => {
@@ -107,6 +108,8 @@ class Capture extends Component {
                 </Camera>
 
             </TouchableOpacity>
+
+            //  Else show the image that has been taken
         } else {
             component = <View>
 
@@ -117,9 +120,9 @@ class Capture extends Component {
                         justifyContent="center"
                         textAlign="center"
                         color="green"
-                        backgroundColor='rgba(180, 180, 180, .8)'
+                        backgroundColor='rgba(216, 216, 216, .8)'
                         width="50%"
-                        height={40}
+                        height={50}
                         onPress={this.accept} />
                     <Button
                         title="Retry"
@@ -127,8 +130,8 @@ class Capture extends Component {
                         textAlign="center"
                         color="red"
                         width="50%"
-                        backgroundColor='rgba(180, 180, 180, .8)'
-                        height={40}
+                        backgroundColor='rgba(216, 216, 216, .8)'
+                        height={50}
                         onPress={this.reject} />
                 </View>
             </View>

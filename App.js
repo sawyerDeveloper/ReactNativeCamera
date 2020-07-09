@@ -38,8 +38,7 @@ class App extends Component {
     let container
     switch (this.state.currentPage) {
       case pages.LOGIN:
-        container = <Login loginError={this.state.loginError}
-          authenticated={this.authenticated} />
+        container = <Login authenticated={this.authenticated} />
         break
       case pages.CAPTURE:
         container = <Capture nav={this.nav} />

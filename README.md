@@ -6,3 +6,5 @@ npm install
 expo start
 
 Scan the QR code on the page that pops up.
+
+Checkout TapToSnapClip.mp4 to see it in action.

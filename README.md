@@ -26,4 +26,4 @@ Tapping your screen takes a picture and then you can click 'Keep' and it will sa
 
 
 
-Checkout TapToSnapClip.mp4 to see it in action.
+Checkout TapToSnap.mp4 to see it in action.

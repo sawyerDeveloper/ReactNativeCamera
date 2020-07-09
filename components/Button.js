@@ -3,7 +3,7 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableWithoutFeedback,
+    TouchableOpacity,
     Image
 } from 'react-native'
 
@@ -34,12 +34,12 @@ const Button = (props) => {
 
     return (
         <View style={styles.container}>
-            <TouchableWithoutFeedback onPress={props.onPress}>
-                <View style={styles.background}>
+            <TouchableOpacity onPress={props.onPress}>
+                <View>
                     <Image source={props.source} />
                     <Text style={styles.titleText}>{props.title}</Text>
                 </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
         </View>
     )
 }

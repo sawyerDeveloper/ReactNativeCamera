@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import {
-  Animated,
-  SafeAreaView
+  Animated
 } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
-import { LinearGradient } from 'expo-linear-gradient'
 import { pages } from './constants/Pages'
 import Login from './containers/Login'
 import Capture from './containers/Capture'
@@ -17,14 +15,6 @@ class App extends Component {
       currentPage: pages.LOGIN,
       fadeValue: new Animated.Value(0)
     }
-  }
-
-  componentDidMount() {
-    Animated.timing(this.state.fadeValue, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true
-    }).start();
   }
 
   authenticated = () => {
@@ -41,8 +31,7 @@ class App extends Component {
     const styles = {
       container: {
         flex: 1,
-        backgroundColor: 'grey',
-        opacity: this.state.fadeValue
+        backgroundColor: 'grey'
       }
     }
 
@@ -58,22 +47,10 @@ class App extends Component {
     }
 
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#1a1a1a' }}>
         <Animated.View style={styles.container}>
-          <LinearGradient
-            colors={['rgba(0,0,0,0.8)', 'transparent']}
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              top: 0,
-              height: 300,
-            }}
-          />
           <StatusBar style="light" />
           {container}
         </Animated.View>
-      </SafeAreaView>
     )
   }
 }

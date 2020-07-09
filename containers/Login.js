@@ -4,6 +4,7 @@ import {
     TextInput,
     KeyboardAvoidingView
 } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
 import Button from '../components/Button'
 
 const fakeCreds = {
@@ -31,6 +32,14 @@ class Login extends Component {
             delay: 700,
             useNativeDriver: true
         }).start();
+    }
+
+    fadeOut = (callback) => {
+        Animated.timing(this.state.fadeValue, {
+            toValue: 0,
+            duration: 1000,
+            useNativeDriver: true
+        }).start(callback)
     }
 
     acceptEmail = (text) => {
@@ -65,7 +74,8 @@ class Login extends Component {
             })
             return
         }
-        this.props.authenticated()
+        //  Pass the auth method as a callback for the animation
+        this.fadeOut(this.props.authenticated)
     }
 
     render() {
@@ -105,6 +115,16 @@ class Login extends Component {
             <KeyboardAvoidingView
                 style={styles.container}
                 behavior="padding">
+                <LinearGradient
+                    colors={['rgba(0,0,0,0.8)', 'transparent']}
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        height: 300,
+                    }}
+                />
                 <Animated.View style={styles.loginContainer}>
                     <TextInput onChangeText={this.acceptEmail}
                         placeholder={emailPlaceholder}

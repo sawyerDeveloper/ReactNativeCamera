@@ -2,11 +2,18 @@
 An app example that takes a picture using React Native's Camera API
 
 # To run this:
+
+Install the Expo Client app on your phone: https://expo.io/tools#client
+
+```git clone git@github.com:sawyerDeveloper/ReactNativeCamera.git```
+
+```npm install expo-cli --global```
+
 ```npm install```
 
 ```expo start```
 
-Scan the QR code on the page that pops up.
+Scan the QR code on the page that pops up to see the app run on your phone.
 
 # Facts
 The app has a login page that has some validation if you don't use the correct U/P Test/test.

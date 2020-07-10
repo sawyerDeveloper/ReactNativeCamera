@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Camera } from 'expo-camera'
 import * as MediaLibrary from 'expo-media-library'
-import { View, Image, Dimensions, TouchableOpacity, Alert } from 'react-native'
-import Button from '../components/Button'
+import { Animated, View, Dimensions, TouchableHighlight, Alert } from 'react-native'
+import Preview from '../components/capture/Preview'
 
 class Capture extends Component {
 
@@ -10,7 +10,8 @@ class Capture extends Component {
         super(props)
         this.state = {
             tempImage: null,
-            permission: false
+            permission: false,
+            snapButtonSize: new Animated.Value(0)
         }
     }
 
@@ -22,12 +23,23 @@ class Capture extends Component {
                     permission: true
                 })
             })
+        Animated.timing(this.state.snapButtonSize, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true
+        }).start()
     }
 
     captureImage = () => {
-        this.camera.takePictureAsync().then((data) => {
-            this.setState({
-                tempImage: data.uri
+        Animated.timing(this.state.snapButtonSize, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true
+        }).start(() =>{
+            this.camera.takePictureAsync().then((data) => {
+                this.setState({
+                    tempImage: data.uri
+                })
             })
         })
     }
@@ -43,6 +55,12 @@ class Capture extends Component {
                             text: "OK", onPress: () => {
                                 this.setState({
                                     tempImage: null
+                                }, () => {
+                                    Animated.timing(this.state.snapButtonSize, {
+                                        toValue: 1,
+                                        duration: 500,
+                                        useNativeDriver: true
+                                    }).start()
                                 })
                             }
                         }
@@ -56,39 +74,40 @@ class Capture extends Component {
     reject = () => {
         this.setState({
             tempImage: null
+        }, () => {
+            Animated.timing(this.state.snapButtonSize, {
+                toValue: 1,
+                duration: 500,
+                useNativeDriver: true
+            }).start()
         })
     }
 
-
     render() {
 
-        const windowWidth = Dimensions.get('window').width;
-        const windowHeight = Dimensions.get('window').height;
+        const windowWidth = Dimensions.get('window').width
+        const windowHeight = Dimensions.get('window').height
         const styles = {
             container: {
                 flex: 1,
                 backgroundColor: 'black',
                 alignItems: 'center',
                 justifyContent: 'center',
-
             },
             camera: {
                 width: windowWidth,
                 height: windowHeight
             },
-            buttonContainer: {
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'space-around',
-                position: 'absolute',
-                bottom: 30,
-                flexDirection: 'row',
-                width: windowWidth,
-                height: 75,
-            },
-            image: {
-                width: windowWidth,
-                height: windowHeight
+            snapButton: {
+                width: 70,
+                height: 70,
+                transform: [{scale: this.state.snapButtonSize}],
+                backgroundColor: 'rgba(255, 255, 255, .5)',
+                borderWidth: 2,
+                borderColor: 'white',
+                borderRadius: 35,
+                bottom: 80,
+                left: windowWidth / 2 - 35
             }
         }
 
@@ -96,45 +115,19 @@ class Capture extends Component {
             return null
         }
 
-
         let component
         //  If a pic hasn't been taken - show the camera
         if (!this.state.tempImage) {
-            component = <TouchableOpacity onPress={this.captureImage}>
-                <Camera ref={ref => {
-                    this.camera = ref
-                }} type="back" style={styles.camera} >
-
-                </Camera>
-
-            </TouchableOpacity>
+            component = <TouchableHighlight onPress={this.captureImage}>
+                            <View>
+                                <Camera ref={ref => { this.camera = ref }} type="back" style={styles.camera} />
+                                <Animated.View style={styles.snapButton} />
+                            </View>
+                        </TouchableHighlight>
 
             //  Else show the image that has been taken
         } else {
-            component = <View>
-
-                <Image style={styles.image} source={{ uri: this.state.tempImage }} />
-                <View style={styles.buttonContainer}>
-                    <Button
-                        title="Keep"
-                        justifyContent="center"
-                        textAlign="center"
-                        color="green"
-                        backgroundColor='rgba(216, 216, 216, .8)'
-                        width="50%"
-                        height={50}
-                        onPress={this.accept} />
-                    <Button
-                        title="Retry"
-                        justifyContent="center"
-                        textAlign="center"
-                        color="red"
-                        width="50%"
-                        backgroundColor='rgba(216, 216, 216, .8)'
-                        height={50}
-                        onPress={this.reject} />
-                </View>
-            </View>
+            component = <Preview accept={this.accept} reject={this.reject} tempImage={this.state.tempImage} />
         }
         return (
             <View style={styles.container}>
@@ -142,7 +135,5 @@ class Capture extends Component {
             </View>
         )
     }
-
-
 }
 export default Capture

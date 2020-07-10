@@ -31,7 +31,7 @@ class Login extends Component {
             duration: 1000,
             delay: 700,
             useNativeDriver: true
-        }).start();
+        }).start()
     }
 
     fadeOut = (callback) => {
@@ -130,11 +130,13 @@ class Login extends Component {
                         placeholder={emailPlaceholder}
                         value={this.state.username}
                         style={emailStyle}
+                        textContentType="none"
                         underlineColorAndroid="transparent" />
                     <TextInput onChangeText={this.acceptPassword}
                         placeholder={passwordPlaceholder}
                         value={this.state.password}
                         style={passwordStyle}
+                        textContentType="none"
                         underlineColorAndroid="transparent"
                         secureTextEntry={true} />
                     <Button
